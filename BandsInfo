@@ -1,0 +1,26 @@
+/* Create table about the people and what they do here */
+CREATE TABLE BANDS (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, album TEXT);
+
+INSERT INTO BANDS VALUES (1, "the breeders", "last splash");
+INSERT INTO BANDS VALUES (2, "mazzy star", "so tonight that I might see");
+INSERT INTO BANDS VALUES (3, "beach house", "bloom");
+
+
+CREATE TABLE ALBUMS (album_id INTEGER, name TEXT, year INTEGER);
+
+INSERT INTO ALBUMS VALUES (1, "last splash", 1993);
+INSERT INTO ALBUMS VALUES (2, "so tonight that I might see", 1993);
+INSERT INTO ALBUMS VALUES (3, "bloom", 2012);
+
+CREATE TABLE SONGS (song_id INTEGER, name TEXT, song_length INTEGER);
+
+INSERT INTO SONGS VALUES (1, "cannonball", 335);
+INSERT INTO SONGS VALUES (2, "fade into you", 454);
+INSERT INTO SONGS VALUES (3, "myth", 419);
+
+SELECT BANDS.name, ALBUMS.name, SONGS.name
+FROM BANDS
+JOIN ALBUMS
+ON BANDS.id = ALBUMS.album_id
+JOIN SONGS
+ON ALBUMS.album_id = SONGS.song_id
