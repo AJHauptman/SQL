@@ -1,0 +1,471 @@
+Last login: Mon Apr  1 10:46:14 on ttys002
+SQLITE3
+(base) Allies-MacBook:~ ahauptman$ SQLITE3
+SQLite version 3.41.2 2023-03-22 11:56:21
+Enter ".help" for usage hints.
+Connected to a transient in-memory database.
+Use ".open FILENAME" to reopen on a persistent database.
+sqlite> CREATE TABLE employees(name, dept, salary, start_year, change_year);
+sqlite> INSERT INTO employees VALUES('Kyle Armstrong', 'Payroll', 45000, 2019, 2023);
+sqlite> INSERT INTO employees VALUES('Kyle ARmstrong', 'Payroll', 55000, 2023, 2024);
+sqlite> INSERT INTO employees VALUES('Lisa Todd', 'HR', 50000, 2022, 2024);
+sqlite> INSERT INTO employees VALUES('Camille Richards', 'Sales', 65000, 2021, 2024);
+sqlite> INSERT INTO employees VALUES('Guillermo Sandoval', 'IT', 55000, 2018, 2020);
+sqlite> INSERT INTO employees VALUES('Guillermo Sandoval', 'Sales', 65000, 2020, 2024);
+sqlite> INSERT INTO employees VALUES('Kim Umansky', 'IT', 65000, 2016, 2020);
+sqlite> INSERT INTO employees VALUES('Kim Umansky', 'IT', 70000, 2020, 2024);
+sqlite> INSERT INTO employees VALUES('Kim Umansky', 'IT', 75000, 2024, 2024);
+sqlite> SELECT * FROM employees;
+Kyle Armstrong|Payroll|45000|2019|2023
+Kyle ARmstrong|Payroll|55000|2023|2024
+Lisa Todd|HR|50000|2022|2024
+Camille Richards|Sales|65000|2021|2024
+Guillermo Sandoval|IT|55000|2018|2020
+Guillermo Sandoval|Sales|65000|2020|2024
+Kim Umansky|IT|65000|2016|2020
+Kim Umansky|IT|70000|2020|2024
+Kim Umansky|IT|75000|2024|2024
+sqlite> SELECT *
+   ...> FROM salary
+   ...> SELECT name, salary
+   ...> FROM employees
+   ...> WHERE start_year IN(SELECT MAX(start_year) FROM employees
+(x1...> GROUP BY name;
+Parse error: near "SELECT": syntax error
+  SELECT * FROM salary SELECT name, salary FROM employees WHERE start_year IN(SE
+                       ^--- error here
+sqlite> SELECT name, salary
+   ...> FROM employees
+   ...> WHERE start_year IN(SELECT MAX(start_year) FROM employees GROUP BY name;
+Parse error: near ";": syntax error
+  ELECT MAX(start_year) FROM employees GROUP BY name;
+                                      error here ---^
+sqlite> SELECT name, salary
+   ...> FROM employees
+   ...> WHERE start_year IN(SELECT MAX(start_year) FROM employees GROUP BY name);
+Kyle Armstrong|45000
+Kyle ARmstrong|55000
+Lisa Todd|50000
+Camille Richards|65000
+Guillermo Sandoval|65000
+Kim Umansky|70000
+Kim Umansky|75000
+sqlite> SELECT DATEDIFF(year, start_year, change_year) AS years_in_position;
+Parse error: no such column: year
+  SELECT DATEDIFF(year, start_year, change_year) AS years_in_position;
+                  ^--- error here
+sqlite> SELECT DATEDIFF(yyyy, start_year, change_year) AS years_in_position;
+Parse error: no such column: yyyy
+  SELECT DATEDIFF(yyyy, start_year, change_year) AS years_in_position;
+                  ^--- error here
+sqlite> SELECT DATEDIFF(year, start_year, change_year) AS years_in_position FROM employees;
+Parse error: no such column: year
+  SELECT DATEDIFF(year, start_year, change_year) AS years_in_position FROM emplo
+                  ^--- error here
+sqlite> SELECT DATEDIFF(start_year, change_year) AS years_in_position FROM employees;
+Parse error: no such function: DATEDIFF
+  SELECT DATEDIFF(start_year, change_year) AS years_in_position FROM employees;
+         ^--- error here
+sqlite> Select datediff(year, start_year, change_year) AS years_in_position FROM employees;
+Parse error: no such column: year
+  Select datediff(year, start_year, change_year) AS years_in_position FROM emplo
+                  ^--- error here
+sqlite> SELECT DATEDIFF(year, 'start_year', 'change_year') AS years_in_position FROM employees;
+Parse error: no such column: year
+  SELECT DATEDIFF(year, 'start_year', 'change_year') AS years_in_position FROM e
+                  ^--- error here
+sqlite> SELECT DATEDIFF('start_year', 'change_year') AS years_in_position FROM employees;
+Parse error: no such function: DATEDIFF
+  SELECT DATEDIFF('start_year', 'change_year') AS years_in_position FROM employe
+         ^--- error here
+sqlite> SELECT DATEDIFF(year, 'start_year', 'change_year') IF start_year != change_year AS years_in_position;
+Parse error: near "start_year": syntax error
+  CT DATEDIFF(year, 'start_year', 'change_year') IF start_year != change_year AS
+                                      error here ---^
+sqlite> SELECT DATEDIFF(year, 'start_year', 'change_year') AS years_in_position IF start_year != change_year;
+Parse error: near "IF": syntax error
+  'start_year', 'change_year') AS years_in_position IF start_year != change_year
+                                      error here ---^
+sqlite> SELECT DATEDIFF(year, 'start_year', 'change_year') AS years_in_position
+   ...> IF start_year = change_year, 1;
+Parse error: near "IF": syntax error
+  'start_year', 'change_year') AS years_in_position IF start_year = change_year,
+                                      error here ---^
+sqlite> SELECT
+   ...> name,
+   ...> start_year
+   ...> change_year,
+   ...> JULIANDAY(change_year) - JULIANDAY(start_year)
+   ...> AS year_difference;
+Parse error: no such column: name
+  SELECT name, start_year change_year, JULIANDAY(change_year) - JULIANDAY(start_
+         ^--- error here
+sqlite> SELECT
+   ...> name,
+   ...> start_year,
+   ...> change_year
+   ...> JULIANDAY(change_year) - JULIANDAY(start_year)
+   ...> AS year_difference
+   ...> FROM employees;
+Parse error: near "(": syntax error
+  SELECT name, start_year, change_year JULIANDAY(change_year) - JULIANDAY(start_
+                                  error here ---^
+sqlite> SELECT name,
+'  ...> FROM employees;
+'  ...> FROM employees;
+'  ...> SELECT * FROM employees;
+'  ...> );
+'  ...> END:
+'  ...> END;
+'  ...> 
+
+Parse error: near "change_year": syntax error
+  oyees ; SELECT name, change_year start_year date('change_year')-date('start_ye
+                                      error here ---^
+(base) Allies-MacBook:~ ahauptman$ SQLITE3
+SQLite version 3.41.2 2023-03-22 11:56:21
+Enter ".help" for usage hints.
+Connected to a transient in-memory database.
+Use ".open FILENAME" to reopen on a persistent database.
+sqlite> select * from employees;
+Parse error: no such table: employees
+sqlite> CREATE TABLE employees(name, dept, salary, start_year, change_year);
+sqlite> INSERT INTO employees VALUES('Kyle Armstrong', 'Payroll', 45000, 2019, 2023);
+sqlite> INSERT INTO employees VALUES('Kyle Armstrong', 'Payroll', 55000, 2023, 2024);
+sqlite> INSERT INTO employees VALUES('Lisa Todd', 'HR', 50000, 2022, 2024);
+sqlite> INSERT INTO employees VALUES('Camille Richards', 'Sales', 65000, 2021, 2024);
+sqlite> INSERT INTO employees VALUES('Guillermo Sandoval', 'IT', 55000, 2018, 2020);
+sqlite> INSERT INTO employees VALUES('Guillermo Sandoval', 'Sales', 65000, 2020, 2024);
+sqlite> INSERT INTO employees VALUES('Kim Umansky', 'IT', 65000, 2016, 2020);
+sqlite> INSERT INTO employees VALUES('Kim Umansky', 'IT', 70000, 2020, 2024);
+sqlite> SELECT name, salary * (change_year - start_year) AS result
+   ...> FROM employees;
+Kyle Armstrong|180000
+Kyle Armstrong|55000
+Lisa Todd|100000
+Camille Richards|195000
+Guillermo Sandoval|110000
+Guillermo Sandoval|260000
+Kim Umansky|260000
+Kim Umansky|280000
+sqlite> SELECT name, salary * (change_year - start_year)
+   ...> FROM employees;
+Kyle Armstrong|180000
+Kyle Armstrong|55000
+Lisa Todd|100000
+Camille Richards|195000
+Guillermo Sandoval|110000
+Guillermo Sandoval|260000
+Kim Umansky|260000
+Kim Umansky|280000
+sqlite> SELECT name, SUM(salary * (change_year - start_year))
+   ...> FROM employees
+   ...> ;
+Parse error: no such column: dept
+  SELECT dept, SUM(salary)  ;
+         ^--- error here
+sqlite> SELECT SUM(salary)
+   ...> WHERE (start_year < 2016)
+   ...> FROM employees
+   ...> GROUP BY dept;
+Parse error: near "FROM": syntax error
+  M(salary) WHERE (start_year < 2016) GROUP BY dept FROM employees GROUP BY dept
+                                      error here ---^
+sqlite> SELECT dept, SUM(salary)
+   ...> FROM employees
+   ...> WHERE (start_date < 2016)
+   ...> GROUP BY dept;
+Parse error: no such column: start_date
+  SELECT dept, SUM(salary) FROM employees WHERE (start_date < 2016) GROUP BY dep
+                                   error here ---^
+(x1...> ;
+Parse error: near ";": syntax error
+  SELECT dept, SUM(salary ;
+                          ^--- error here
+sqlite> SELECT dept, SUM(salary)
+   ...> FROM employees
+   ...> WHERE (start_year < 2017)
+   ...> GROUP BY dept;
+IT|65000
+sqlite> SELECT dept, SUM(salary)
+   ...> FROM employees
+   ...> WHERE (start_year = 2016)
+   ...> GROUP BY dept;
+Parse error: near "WHERE": syntax error
+  (salary) FROM employees WHERE (start_year < 2017) WHERE (start_year < 2018) WH
+                                      error here ---^
+(x1...> ;
+Parse error: near ";": syntax error
+  SELECT dept, SUM(salary ;
+                          ^--- error here
+sqlite> SELECT dept, SUM(salary)
+   ...> FROM employees
+   ...> WHERE (start_year <2017)
+   ...> GROUP BY dept;
+IT|65000
+sqlite> SELECT dept, SUM(salary)
+   ...> FROM employees
+   ...> WHERE (start_year < 2018)
+   ...> GROUP BY dept;
+IT|65000
+sqlite> SELECT dept, SUM(salary)
+   ...> FROM employees
+   ...> WHERE (start_year < 2019)
+   ...> GROUP BY dept;
+IT|120000
+sqlite> SELECT dept, SUM(salary)
+   ...> FROM employees
+   ...> WHERE (start_year < 2020);
+Payroll|165000
+sqlite> SELECT dept, SUM(salary)
+   ...> FROM employees
+   ...> ;
+Payroll|470000
+sqlite> SELECT dept, salary
+   ...> FROM employees;
+Payroll|45000
+Payroll|55000
+HR|50000
+Sales|65000
+IT|55000
+Sales|65000
+IT|65000
+IT|70000
+sqlite> SELECT dept, salary
+   ...> FROM employees
+   ...> WHERE start_year = 2023;
+Payroll|55000
+   ...> WHERE (start_year < 2018);
+Parse error: near "WHERE": syntax error
+  (salary) FROM employees WHERE (start_year < 2016) WHERE (start_year <2017) WHE
+                                      error here ---^
+sqlite> SELECT dept, SUM(salary)
+   ...> FROM employees
+   ...> WHERE start_year < 2017
+   ...> AND WHERE start_year <2018
+   ...> AND WHERE start_year <2019;
+Parse error: near "WHERE": syntax error
+  alary) FROM employees WHERE start_year < 2017 AND WHERE start_year <2018 AND W
+                                      error here ---^
+sqlite> SELECT dept, SUM(salary)
+   ...> FROM employees
+   ...> WHERE start_year < 2017;
+IT|65000
+sqlite> SELECT dept, SUM(salary)
+   ...> FROM employees WHERE start_year < 2024;
+Payroll|470000
+sqlite> SELECT dept, SUM(salary)
+   ...> FROM employees
+   ...> GROUP BY dept
+   ...> GROUP BY start_year;
+Parse error: near "GROUP": syntax error
+  CT dept, SUM(salary) FROM employees GROUP BY dept GROUP BY start_year;
+                                      error here ---^
+sqlite> SELECT dept, SUM(salary)
+   ...> FROM employees
+   ...> GROUP BY start_year;
+IT|65000
+IT|55000
+Payroll|45000
+Sales|135000
+Sales|65000
+HR|50000
+Payroll|55000
+sqlite> SELECT dept, SUM(salary)
+   ...> FROM employees
+   ...> GROUP BY start_year;
+IT|65000
+IT|55000
+Payroll|45000
+Sales|135000
+Sales|65000
+HR|50000
+Payroll|55000
+sqlite> SELECT dept, MAX(SUM(salary))
+   ...> FROM employees
+   ...> GROUP BY start_year;
+Parse error: misuse of aggregate function SUM()
+  SELECT dept, MAX(SUM(salary)) FROM employees GROUP BY start_year;
+                   ^--- error here
+sqlite> SELECT dept, SUM(salary)
+   ...> FROM employees
+   ...> GROUP BY start_year;
+IT|65000
+IT|55000
+Payroll|45000
+Sales|135000
+Sales|65000
+HR|50000
+Payroll|55000
+sqlite> select dept, start_year, SUM(salary)
+   ...> FROM employees
+   ...> GROUP BY start_year;
+IT|2016|65000
+IT|2018|55000
+Payroll|2019|45000
+Sales|2020|135000
+Sales|2021|65000
+HR|2022|50000
+Payroll|2023|55000
+sqlite> select dept, start_year, SUM(salary)
+   ...> FROM employees
+   ...> GROUP BY start_year;
+IT|2016|65000
+IT|2018|55000
+Payroll|2019|45000
+Sales|2020|135000
+Sales|2021|65000
+HR|2022|50000
+Payroll|2023|55000
+sqlite> SELECT dept, start_year, SUM(salary)
+   ...> FROM employees
+   ...> GROUP BY dept;
+HR|2022|50000
+IT|2018|190000
+Payroll|2019|100000
+Sales|2021|130000
+sqlite> SELECT dept, (2024 - 'start_year'), SUM(salary)
+   ...> FROM employees
+   ...> GROUP BY dept;
+HR|2024|50000
+IT|2024|190000
+Payroll|2024|100000
+Sales|2024|130000
+sqlite> SELECT dept, SUM((2024 - 'start_year') * salary)
+   ...> FROM employees
+   ...> GROUP BY dept;
+HR|101200000
+IT|384560000
+Payroll|202400000
+Sales|263120000
+sqlite> SELECT dept, (2024 - 'start_year') * salary AS result)
+)x!...> FROM employees
+)x!...> GROUP BY dept;
+Parse error: near ")": syntax error
+  ECT dept, (2024 - 'start_year') * salary AS result) FROM employees GROUP BY de
+                                      error here ---^
+sqlite> SELECT dept, (2024 - 'start_year') * salary AS result
+   ...> FROM employees
+   ...> GROUP BY dept;
+HR|101200000
+IT|111320000
+Payroll|91080000
+Sales|131560000
+sqlite> SELECT dept, SUM(salary), 
+   ...> FROM employees
+   ...> GROUP BY dept;
+Parse error: near "FROM": syntax error
+  SELECT dept, SUM(salary),  FROM employees GROUP BY dept;
+               error here ---^
+   ...> ;
+Parse error: near "FROM": syntax error
+  SELECT dept, start_year, SUM(salary), FROM employees, ;
+                          error here ---^
+sqlite> SELECT dept, start_year, SUM(salary)
+   ...> FROM employees
+   ...> GROUP BY dept
+   ...> GROUP BY start_year;
+Parse error: near "GROUP": syntax error
+  rt_year, SUM(salary) FROM employees GROUP BY dept GROUP BY start_year;
+                                      error here ---^
+sqlite> SELECT dept, start_year, SUM(salary)
+   ...> FROM employees
+   ...> GROUP BY dept;
+HR|2022|50000
+IT|2018|190000
+Payroll|2019|100000
+Sales|2021|130000
+sqlite> SELECT dept, start_year, SUM(salary) 
+   ...> FROM employees
+   ...> WHERE start_year > 2023;
+||
+sqlite> SELECT dept, start_year, SUM(salary)
+   ...> FROM employees
+   ...> WHERE (change_year - start_year) < 5
+   ...> GROUP BY dept;
+HR|2022|50000
+IT|2018|190000
+Payroll|2019|100000
+Sales|2021|130000
+sqlite> SELECT dept, salary * (change_year - start_year),
+   ...> FROM employees
+   ...> GROUP BY dept;
+Parse error: near "FROM": syntax error
+  SELECT dept, salary * (change_year - start_year), FROM employees GROUP BY dept
+                                      error here ---^
+sqlite> SELECT dept, salary * (change_year - start_year)
+   ...> FROM employees
+   ...> GROUP BY dept;
+HR|100000
+IT|110000
+Payroll|180000
+Sales|195000
+sqlite> SELECT dept, salary * (change_year - start_year)
+   ...> FROM employees
+   ...> GROUP BY dept;
+HR|100000
+IT|110000
+Payroll|180000
+Sales|195000
+sqlite> SELECT dept, salary * (change_year - start_year)
+   ...> FROM employees
+   ...> GROUP BY dept
+   ...> GROUP BY start_year;
+Parse error: near "GROUP": syntax error
+  e_year - start_year) FROM employees GROUP BY dept GROUP BY start_year;
+                                      error here ---^
+sqlite> SELECT dept, salary * (change_year - start_year)
+   ...> FROM employees
+   ...> GROUP BY start_year;
+IT|260000
+IT|110000
+Payroll|180000
+Sales|260000
+Sales|195000
+HR|100000
+Payroll|55000
+sqlite> SELECT dept, salary * (change_year - start_year)
+   ...> FROM employees
+   ...> ;
+Payroll|180000
+Payroll|55000
+HR|100000
+Sales|195000
+IT|110000
+Sales|260000
+IT|260000
+IT|280000
+sqlite> SELECT dept, start_year, salary * (change_year - start_year)
+   ...> FROM employees
+   ...> GROUP BY dept;
+HR|2022|100000
+IT|2018|110000
+Payroll|2019|180000
+Sales|2021|195000
+sqlite> SELECT dept, start_year, salary * (change_year - start_year)
+   ...> FROM employees
+   ...> GROUP BY start_year;
+IT|2016|260000
+IT|2018|110000
+Payroll|2019|180000
+Sales|2020|260000
+Sales|2021|195000
+HR|2022|100000
+Payroll|2023|55000
+sqlite> SELECT dept, start_year, MAX(salary * (change_year - start_year))
+   ...> FROM employees
+   ...> GROUP BY dept;
+HR|2022|100000
+IT|2020|280000
+Payroll|2019|180000
+Sales|2020|260000
+sqlite> SELECT dept, start_year, GREATEST(salary * (change_year - start_year))
+   ...> FROM employees
+   ...> ;
+Parse error: no such function: GREATEST
+  SELECT dept, start_year, GREATEST(salary * (change_year - start_year)) FROM em
+             error here ---^
+sqlite> SELECT dept, start_year, MAX(salary * (change_year - start_year))
+   ...> FROM employees;
+IT|2020|280000
+sqlite> 
