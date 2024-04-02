@@ -1,0 +1,38 @@
+sqlite> CREATE TABLE employees(name, dept, salary, start_year, change_year);
+sqlite> INSERT INTO employees VALUES('Kyle Armstrong', 'Payroll', 45000, 2019, 2023);
+sqlite> INSERT INTO employees VALUES('Kyle Armstrong', 'Payroll', 55000, 2023, 2024);
+sqlite> INSERT INTO employees VALUES('Lisa Todd', 'HR', 50000, 2022, 2024);
+sqlite> INSERT INTO employees VALUES('Camille Richards', 'Sales', 65000, 2021, 2024);
+sqlite> INSERT INTO employees VALUES('Guillermo Sandoval', 'IT', 55000, 2018, 2020);
+sqlite> INSERT INTO employees VALUES('Guillermo Sandoval', 'Sales', 65000, 2020, 2024);
+sqlite> INSERT INTO employees VALUES('Kim Umansky', 'IT', 65000, 2016, 2020);
+sqlite> INSERT INTO employees VALUES('Kim Umansky', 'IT', 70000, 2020, 2024);
+sqlite> SELECT name, salary * (change_year - start_year) AS result
+   ...> FROM employees;
+Kyle Armstrong|180000
+Kyle Armstrong|55000
+Lisa Todd|100000
+Camille Richards|195000
+Guillermo Sandoval|110000
+Guillermo Sandoval|260000
+Kim Umansky|260000
+Kim Umansky|280000
+sqlite> SELECT name, salary * (change_year - start_year)
+   ...> FROM employees;
+Kyle Armstrong|180000
+Kyle Armstrong|55000
+Lisa Todd|100000
+Camille Richards|195000
+Guillermo Sandoval|110000
+Guillermo Sandoval|260000
+Kim Umansky|260000
+Kim Umansky|280000
+sqlite> SELECT name, SUM(salary * (change_year - start_year))
+   ...> FROM employees
+   ...> GROUP BY name;
+Camille Richards|195000
+Guillermo Sandoval|370000
+Kim Umansky|540000
+Kyle Armstrong|235000
+Lisa Todd|100000
+sqlite> 
