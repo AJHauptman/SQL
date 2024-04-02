@@ -1,0 +1,28 @@
+Last login: Tue Apr  2 13:54:35 on ttys001
+SQLITE3
+(base) Allies-MacBook:~ ahauptman$ SQLITE3
+SQLite version 3.41.2 2023-03-22 11:56:21
+Enter ".help" for usage hints.
+Connected to a transient in-memory database.
+Use ".open FILENAME" to reopen on a persistent database.
+sqlite> CREATE TABLE walk_access_healthy_food (OBJECTID,GEOID,ACCESS_,Shape__Area,Shape__Length);
+sqlite> .mode csv
+sqlite> .import /Users/ahauptman/Downloads/Walkable_Access_Healthy_Food.csv walk_access_healthy_food
+sqlite> SELECT count(geoid), access_ 
+   ...> FROM walk_access_healthy_food
+   ...> GROUP BY access_;
+1,ACCESS_
+8036,"High Access"
+4752,"Low Access"
+2051,"Moderate Access"
+4033,"No Access"
+sqlite> SELECT count(geoid), access_
+   ...> FROM walk_access_healthy_food
+   ...> GROUP BY access_
+   ...> ORDER BY count(geoid) DESC;
+8036,"High Access"
+4752,"Low Access"
+4033,"No Access"
+2051,"Moderate Access"
+1,ACCESS_
+sqlite> 
